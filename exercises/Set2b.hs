@@ -91,7 +91,7 @@ myGcd x y
 -- * you can compute the length of a string with the length function
 
 leftpad :: String -> Int -> String
-leftpad s l = (take (l - length s) $ repeat ' ') ++ s
+leftpad s l = replicate (l - length s) ' ' ++ s
 
 ------------------------------------------------------------------------------
 -- Ex 5: let's make a countdown for a rocket! Given a number, you
@@ -133,11 +133,7 @@ count n
 -- Hint: remember the mod function!
 
 smallestDivisor :: Integer -> Integer
-smallestDivisor n = smDiv n 2
- where
-  smDiv n i = case n `mod` i of
-    0 -> i
-    _ -> smDiv n (i + 1)
+smallestDivisor n = head [k | k <- [2 ..], n `mod` k == 0]
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement a function isPrime that checks if the given number
@@ -146,9 +142,9 @@ smallestDivisor n = smDiv n 2
 -- Ps. 0 and 1 are not prime numbers
 
 isPrime :: Integer -> Bool
-isPrime 0 = False
-isPrime 1 = False
-isPrime n = smallestDivisor n == n
+isPrime n
+  | n <= 1 = False
+  | otherwise = smallestDivisor n == n
 
 ------------------------------------------------------------------------------
 -- Ex 8: implement a function biggestPrimeAtMost that returns the
